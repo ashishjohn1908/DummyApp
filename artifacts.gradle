@@ -1,0 +1,27 @@
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+
+def getDateTime() {
+    DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+
+    return df.format(new Date());
+}
+
+android.applicationVariants.all { variant ->
+    def appName
+//    Check if an applicationName property is supplied; if not use the name of the parent project.
+//    This code works with gradle 3+ for android
+
+//  You can add applicationName in gradle.properties file to get that name as your APK name.
+//  Else you will get your Parent Project name in your APK name
+
+    if (project.hasProperty("applicationName")) {
+        appName = applicationName
+    } else {
+        appName = parent.name
+    }
+
+    variant.outputs.all { output ->
+        outputFileName = getDateTime() + "-${appName}-${output.baseName}-${variant.versionCode}.apk"
+    }
+}

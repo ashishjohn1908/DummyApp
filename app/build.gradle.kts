@@ -4,6 +4,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        create("release") {
+            storeFile = file("..\\Key\\dummyApp.jks")
+            storePassword = "AshishJohn"
+            keyPassword = "AshishJohn"
+            keyAlias = "KeyAlias"
+        }
+    }
     namespace = "com.example.dummyapp"
     compileSdk = 34
 
@@ -24,6 +32,7 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
@@ -63,4 +72,6 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    apply("../artifacts.gradle")
 }
